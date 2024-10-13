@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lato:wght@400;700&display=swap');
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    max-width: 95%;
+    width: 800px;
+    position: relative;
+}
+h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+#word {
+    font-size: 2.5rem;
+    margin: 1.5rem 0;
+    font-weight: bold;
+    padding: 1rem;
+    border: 3px solid #333;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    min-height: 60px; /* 添加最小高度以防止布局跳动 */
+}
+#word::after {
+    content: '|';
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+button {
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    margin: 10px 5px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    background-size: 200% auto;
+}
+button:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+#spanishBtn { background-image: linear-gradient(to right, #FF9933 0%, #FF5733 51%, #FF9933 100%); }
+#frenchBtn { background-image: linear-gradient(to right, #0055A4 0%, #00337F 51%, #0055A4 100%); }
+#italianBtn { background-image: linear-gradient(to right, #009246 0%, #006E35 51%, #009246 100%); }
+#romanianBtn { background-image: linear-gradient(to right, #002B7F 0%, #001F5C 51%, #002B7F 100%); }
+#portugueseBtn { background-image: linear-gradient(to right, #006600 0%, #004D00 51%, #006600 100%); }
+#catalanBtn { background-image: linear-gradient(to right, #FFCC00 0%, #FFB300 51%, #FFCC00 100%); color: #000; }
+#result {
+    margin-top: 1.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+#score {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #555;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+    transition: background-color 0.5s ease;
+}
+
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#languageSelect {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+}
+
+#languageMenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: none;
+}
+
+#languageMenu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#languageMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+.hidden {
+    display: none;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.button-row button {
+    margin: 0 10px;
+}
+
+@media (max-width: 800px) {
+    .button-row {
+        flex-wrap: wrap;
+    }
+
+    .button-row button {
+        margin: 8px;
+    }
+}
+
+#refreshBtn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+#refreshBtn:hover {
+    transform: rotate(180deg);
+}
+
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(30);
+        opacity: 0;
+    }
+}
+
+#result-area {
+    min-height: 80px; /* 调整这个值以适应您的需求 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#result {
+    margin-bottom: 10px;
+    min-height: 1.2em; /* 为结果文本预留空间 */
+}
+
+#score {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+    transition: background-color 0.5s ease;
+}
+
+.button-row {
+    margin-bottom: 10px; /* 增加按钮行的下边距 */
+}

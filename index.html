@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Romance Language</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Romance Language</h1>
+        <div id="word">Loading...</div>
+        <div class="button-row">
+            <button id="spanishBtn">Spanish</button>
+            <button id="frenchBtn">French</button>
+            <button id="italianBtn">Italian</button>
+        </div>
+        <div class="button-row">
+            <button id="romanianBtn">Romanian</button>
+            <button id="portugueseBtn">Portuguese</button>
+            <button id="catalanBtn">Catalan</button>
+        </div>
+        <div id="result-area">
+            <div id="result"></div>
+            <div id="score">Score: 0</div>
+        </div>
+        <button id="refreshBtn" aria-label="Refresh">↻</button>
+        <div id="fireworks"></div>
+    </div>
+
+    <script>
+        const languages = ['spanish', 'french', 'italian', 'romanian', 'portuguese', 'catalan'];
+        let currentWord = '';
+        let currentLanguage = '';
+        let score = 0;
+        let usedWords = new Set();
+
+        // Inline the word library directly into the script
+        const wordLibrary = {
+            spanish: [
+                'siesta', 'flamenco', 'tortilla', 'churro', 'paella', 'gazpacho', 'toro', 'fiesta', 'tapas', 'sangría',
+                'guitarra', 'castañuelas', 'matador', 'corrida', 'zarzuela', 'jamón', 'olé', 'plaza', 'sombrero', 'abanico',
+                'quijote', 'puchero', 'horchata', 'alhambra', 'sevillanas', 'gaudi', 'turrón', 'chorizo', 'manchego', 'rioja',
+                'jota', 'falla', 'meninas', 'duende', 'maja', 'cante', 'romería', 'azulejo', 'serrano', 'almodóvar',
+                'flamenquito', 'gazpachuelo', 'pimentón', 'albóndigas', 'ensaladilla', 'boquerones', 'calamares', 'gambas',
+                'patatas bravas', 'croquetas', 'tortilla española', 'fabada', 'cocido', 'empanada', 'pulpo', 'sidra',
+                'txakoli', 'morcilla', 'sobrasada', 'alioli'
+            ],
+            french: [
+                'baguette', 'croissant', 'champagne', 'beret', 'fromage', 'escargot', 'parfum', 'chic', 'bistro', 'couture',
+                'ballet', 'château', 'bonjour', 'mademoiselle', 'voilà', 'rendez-vous', 'déjà-vu', 'soirée', 'cliché', 'avant-garde',
+                'macaron', 'camembert', 'cognac', 'impressionnisme', 'cancan', 'ratatouille', 'pétanque', 'brioche', 'foie gras', 'quiche',
+                'champs-élysées', 'moulin rouge', 'louvre', 'marseillaise', 'sacrebleu', 'tour eiffel', 'arrondissement', 'boulangerie', 'charcuterie', 'confit',
+                'coq au vin', 'cassoulet', 'bouillabaisse', 'crêpe', 'éclair', 'madeleine', 'tarte tatin', 'crème brûlée',
+                'bœuf bourguignon', 'choucroute', 'raclette', 'fondue', 'calvados', 'pastis', 'absinthe', 'beaujolais',
+                'bordeaux', 'champignon', 'truffes', 'escargots'
+            ],
+            italian: [
+                'pizza', 'pasta', 'espresso', 'gelato', 'risotto', 'cappuccino', 'mozzarella', 'gondola', 'ferrari', 'piazza',
+                'opera', 'ciao', 'biscotti', 'allegro', 'dolce vita', 'grappa', 'prosciutto', 'tiramisu', 'vespa', 'bravissimo',
+                'colosseo', 'carbonara', 'chianti', 'parmigiano', 'cannoli', 'bruschetta', 'panettone', 'spritz', 'tarantella', 'limoncello',
+                'fettuccine', 'gnocchi', 'mascarpone', 'ossobuco', 'pesto', 'ravioli', 'stracciatella', 'zuppa', 'focaccia', 'balsamico',
+                'lasagna', 'minestrone', 'polenta', 'pancetta', 'pecorino', 'gorgonzola', 'ricotta', 'burrata', 'carpaccio',
+                'vitello tonnato', 'saltimbocca', 'cacciatore', 'marsala', 'prosecco', 'amaretto', 'negroni', 'aperitivo',
+                'trattoria', 'osteria', 'enoteca'
+            ],
+            romanian: [
+                'mămăligă', 'sarmale', 'țuică', 'miorița', 'doină', 'trăiască', 'balaur', 'colindă', 'ciorbă', 'cozonac',
+                'plăcintă', 'harap-alb', 'brânză', 'dor', 'fată', 'flăcău', 'horă', 'izvor', 'codru', 'zâna',
+                'drăculea', 'mici', 'palinca', 'transilvanie', 'carpați', 'ștefan', 'ardeal', 'balada', 'bucovina', 'cioban',
+                'dacia', 'dragoste', 'haiduc', 'iele', 'lăutari', 'mocănița', 'oltenesc', 'păcală', 'râșnov', 'voievod',
+                'zacuscă', 'pălincă', 'drob', 'colivă', 'colac', 'tochitură', 'slănină', 'piftie', 'fasole bătută',
+                'bulz', 'mujdei', 'ghiveci', 'șaorma', 'caltaboș', 'cârnați', 'jumări', 'pomana porcului', 'covrigi',
+                'gogoși', 'clătite'
+            ],
+            portuguese: [
+                'saudade', 'fado', 'bacalhau', 'caipirinha', 'carnaval', 'bossa nova', 'favela', 'cachaca', 'pastel', 'pão de queijo',
+                'capoeira', 'churrasco', 'açaí', 'samba', 'bonde', 'cafezinho', 'feijão', 'floresta', 'praia', 'obrigado',
+                'ginga', 'cachaça', 'coxinha', 'brigadeiro', 'acarajé', 'capoeira', 'berimbau', 'ipanema', 'copacabana', 'carioca',
+                'gaúcho', 'pelé', 'maracujá', 'tapioca', 'jabuticaba', 'caatinga', 'cerrado', 'pantanal', 'jeitinho', 'quilombo',
+                'moqueca', 'feijoada', 'picanha', 'farofa', 'guaraná', 'caatinga', 'sertão', 'cangaço', 'lampião', 'bossa nova',
+                'tropicalismo', 'baião', 'forró', 'frevo', 'maracatu', 'axé', 'capoeira', 'candomblé', 'umbanda', 'macumba'
+            ],
+            catalan: [
+                'botifarra', 'calçot', 'cava', 'sardana', 'castells', 'seny', 'rauxa', 'barretina', 'caganer', 'correfoc',
+                'gegants', 'allioli', 'escalivada', 'xató', 'porró', 'estelada', 'diada', 'modernisme', 'tramuntana', 'sobrassada',
+                'crema catalana', 'pa amb tomàquet', 'fuet', 'escudella', 'romesco', 'suquet', 'tió', 'butifarra', 'sequer', 'fideuà',
+                'gaudí', 'sagrada família', 'mossos', 'boqueria', 'pedraforca', 'costa brava', 'montserrat', 'empordà', 'priorat',
+                'masia', 'cargols', 'arròs negre', 'samfaina', 'trinxat', 'coca', 'panellets', 'carquinyolis', 'mel i mató',
+                'ratafía', 'vermut', 'orxata', 'calçots', 'castanyada', 'sant jordi', 'senyera', 'capgrossos', 'trabucaires', 'sardanes'
+            ]
+        };
+
+        function getRandomWord() {
+            const language = languages[Math.floor(Math.random() * languages.length)];
+            const wordList = wordLibrary[language].filter(word => !usedWords.has(word));
+            
+            if (wordList.length === 0) {
+                // 如果所有单词都用完了，重置已使用单词集合
+                usedWords.clear();
+                return getRandomWord();
+            }
+            
+            const word = wordList[Math.floor(Math.random() * wordList.length)];
+            usedWords.add(word);
+            return { word, language };
+        }
+
+        function typeWord(word) {
+            const wordElement = document.getElementById('word');
+            wordElement.textContent = '';
+            let i = 0;
+            const typingInterval = setInterval(() => {
+                if (i < word.length) {
+                    wordElement.textContent += word[i];
+                    i++;
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, 100); // 每个字符之间的延迟，可以根据需要调整
+        }
+
+        function updateWord() {
+            const { word, language } = getRandomWord();
+            currentWord = word;
+            currentLanguage = language;
+            typeWord(word);
+            document.getElementById('result').textContent = '';
+        }
+
+        function createFirework(x, y, color) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.top = y + 'px';
+            firework.style.backgroundColor = color;
+            firework.style.width = '10px'; // 设置烟花的初始宽度
+            firework.style.height = '10px'; // 设置烟花的初始高度
+            firework.style.borderRadius = '50%'; // 使其成为圆形
+            firework.style.position = 'absolute'; // 绝对定位
+            firework.style.transition = 'transform 0.5s, opacity 0.5s'; // 添加过渡效果
+            document.getElementById('fireworks').appendChild(firework);
+
+            // 让烟花扩散并消失
+            setTimeout(() => {
+                firework.style.transform = 'scale(5)'; // 扩大烟花
+                firework.style.opacity = '0'; // 逐渐消失
+            }, 0);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 500); // 短时间后移除烟花
+        }
+
+        function celebrateCorrectAnswer() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    createFirework(x, y, color);
+                }, i * 50);
+            }
+        }
+
+        function checkAnswer(guessedLanguage) {
+            const resultElement = document.getElementById('result');
+            const scoreElement = document.getElementById('score');
+            
+            if (guessedLanguage === currentLanguage) {
+                resultElement.textContent = 'Correct!';
+                resultElement.style.color = 'green';
+                score++;
+                
+                // 设置背景颜色为对应国旗的配色
+                const flagColors = {
+                    spanish: '#ff0000', // 红色
+                    french: '#0055a4', // 蓝色
+                    italian: '#008148', // 绿色
+                    romanian: '#fcd20e', // 黄色
+                    portuguese: '#ff0000', // 红色
+                    catalan: '#ffcc00' // 黄色
+                };
+                
+                const color = flagColors[currentLanguage] || 'black';
+                
+                // 创建渐变动画
+                scoreElement.style.backgroundImage = `linear-gradient(to right, black, ${color})`;
+                scoreElement.style.backgroundSize = '200% 100%';
+                scoreElement.style.backgroundPosition = 'left bottom';
+                
+                // 触发动画
+                setTimeout(() => {
+                    scoreElement.style.backgroundPosition = 'right bottom';
+                }, 50);
+                
+                celebrateCorrectAnswer();
+                
+                // 一秒后恢复原来的背景
+                setTimeout(() => {
+                    scoreElement.style.backgroundImage = 'none';
+                    scoreElement.style.backgroundColor = 'black';
+                }, 1000);
+            } else {
+                resultElement.textContent = `Wrong! It's ${currentLanguage}.`;
+                resultElement.style.color = 'red';
+            }
+            scoreElement.textContent = `Score: ${score}`;
+            setTimeout(updateWord, 1500);
+        }
+
+        languages.forEach(lang => {
+            document.getElementById(`${lang}Btn`).addEventListener('click', () => checkAnswer(lang));
+        });
+
+        // Directly call updateWord since the wordLibrary is already loaded
+        updateWord();
+
+        // 添加这个新函数到脚本的末尾
+        function resetGame() {
+            score = 0;
+            usedWords.clear();
+            document.getElementById('score').textContent = 'Score: 0';
+            updateWord();
+        }
+
+        document.getElementById('refreshBtn').addEventListener('click', resetGame);
+    </script>
+</body>
+</html>
