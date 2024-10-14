@@ -9,7 +9,19 @@
 <body>
     <div class="container">
         <h1>Guess the Romance Language</h1>
-        <div id="word">Loading...</div>
+        <div class="mode-toggle">
+            <label class="switch">
+                <input type="checkbox" id="modeSwitch">
+                <span class="slider"></span>
+            </label>
+            <span id="modeLabel">Leisure Mode</span>
+        </div>
+        <div class="word-container">
+            <div id="word">Loading...</div>
+            <button id="hintBtn" aria-label="Hint">?</button>
+        </div>
+        <div id="timer" style="display: none;">Time left: 60s</div>
+
         <div class="button-row">
             <button id="spanishBtn">Spanish</button>
             <button id="frenchBtn">French</button>
@@ -25,7 +37,6 @@
             <div id="score">Score: 0</div>
         </div>
         <button id="refreshBtn" aria-label="Refresh">↻</button>
-        <div id="fireworks"></div>
     </div>
 
     <script>
@@ -34,6 +45,10 @@
         let currentLanguage = '';
         let score = 0;
         let usedWords = new Set();
+        let hintUsed = false;
+        let timer;
+        let timeLeft = 60; // 60秒倒计时
+        let isRaceMode = false;
 
         // Inline the word library directly into the script
         const wordLibrary = {
@@ -96,7 +111,6 @@
             const wordList = wordLibrary[language].filter(word => !usedWords.has(word));
             
             if (wordList.length === 0) {
-                // 如果所有单词都用完了，重置已使用单词集合
                 usedWords.clear();
                 return getRandomWord();
             }
@@ -106,62 +120,43 @@
             return { word, language };
         }
 
-        function typeWord(word) {
-            const wordElement = document.getElementById('word');
-            wordElement.textContent = '';
-            let i = 0;
-            const typingInterval = setInterval(() => {
-                if (i < word.length) {
-                    wordElement.textContent += word[i];
-                    i++;
-                } else {
-                    clearInterval(typingInterval);
-                }
-            }, 100); // 每个字符之间的延迟，可以根据需要调整
-        }
-
         function updateWord() {
             const { word, language } = getRandomWord();
             currentWord = word;
             currentLanguage = language;
-            typeWord(word);
+            document.getElementById('word').textContent = word;
             document.getElementById('result').textContent = '';
+            hintUsed = false; // 重置 HINT 使用状态
+            document.getElementById('hintBtn').disabled = false; // 启用 HINT 按钮
+            languages.forEach(lang => {
+                const button = document.getElementById(`${lang}Btn`);
+                button.disabled = false;
+                button.style.pointerEvents = 'auto';
+                button.classList.remove('disabled-button');
+            });
         }
 
-        function createFirework(x, y, color) {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            firework.style.left = x + 'px';
-            firework.style.top = y + 'px';
-            firework.style.backgroundColor = color;
-            firework.style.width = '10px'; // 设置烟花的初始宽度
-            firework.style.height = '10px'; // 设置烟花的初始高度
-            firework.style.borderRadius = '50%'; // 使其成为圆形
-            firework.style.position = 'absolute'; // 绝对定位
-            firework.style.transition = 'transform 0.5s, opacity 0.5s'; // 添加过渡效果
-            document.getElementById('fireworks').appendChild(firework);
+        function getHint() {
+            if (hintUsed) return; // 如果已经使用过 HINT，则不再执行
 
-            // 让烟花扩散并消失
-            setTimeout(() => {
-                firework.style.transform = 'scale(5)'; // 扩大烟花
-                firework.style.opacity = '0'; // 逐渐消失
-            }, 0);
+            hintUsed = true;
+            document.getElementById('hintBtn').disabled = true; // 禁用 HINT 按钮
 
-            setTimeout(() => {
-                firework.remove();
-            }, 500); // 短时间后移除烟花
-        }
-
-        function celebrateCorrectAnswer() {
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight;
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    createFirework(x, y, color);
-                }, i * 50);
+            const buttons = languages.map(lang => document.getElementById(`${lang}Btn`));
+            const shuffled = [...buttons].sort(() => 0.5 - Math.random());
+            const buttonsToDisable = shuffled.slice(0, 3);
+            
+            const correctButton = document.getElementById(`${currentLanguage}Btn`);
+            if (buttonsToDisable.includes(correctButton)) {
+                const index = buttonsToDisable.indexOf(correctButton);
+                buttonsToDisable[index] = shuffled[3];
             }
+            
+            buttonsToDisable.forEach(button => {
+                button.disabled = true;
+                button.style.pointerEvents = 'none';
+                button.classList.add('disabled-button');
+            });
         }
 
         function checkAnswer(guessedLanguage) {
@@ -171,61 +166,86 @@
             if (guessedLanguage === currentLanguage) {
                 resultElement.textContent = 'Correct!';
                 resultElement.style.color = 'green';
-                score++;
-                
-                // 设置背景颜色为对应国旗的配色
-                const flagColors = {
-                    spanish: '#ff0000', // 红色
-                    french: '#0055a4', // 蓝色
-                    italian: '#008148', // 绿色
-                    romanian: '#fcd20e', // 黄色
-                    portuguese: '#ff0000', // 红色
-                    catalan: '#ffcc00' // 黄色
-                };
-                
-                const color = flagColors[currentLanguage] || 'black';
-                
-                // 创建渐变动画
-                scoreElement.style.backgroundImage = `linear-gradient(to right, black, ${color})`;
-                scoreElement.style.backgroundSize = '200% 100%';
-                scoreElement.style.backgroundPosition = 'left bottom';
-                
-                // 触发动画
-                setTimeout(() => {
-                    scoreElement.style.backgroundPosition = 'right bottom';
-                }, 50);
-                
-                celebrateCorrectAnswer();
-                
-                // 一秒后恢复原来的背景
-                setTimeout(() => {
-                    scoreElement.style.backgroundImage = 'none';
-                    scoreElement.style.backgroundColor = 'black';
-                }, 1000);
+                score += hintUsed ? 0.5 : 1; // 使用HINT后得0.5分，否则得1分
             } else {
-                resultElement.textContent = `Wrong! It's ${currentLanguage}.`;
+                resultElement.textContent = `Wrong! It's ${currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1)}.`;
                 resultElement.style.color = 'red';
+                // 答错得0分，不需要改变分数
             }
+            
             scoreElement.textContent = `Score: ${score}`;
             setTimeout(updateWord, 1500);
         }
 
-        languages.forEach(lang => {
-            document.getElementById(`${lang}Btn`).addEventListener('click', () => checkAnswer(lang));
-        });
+        function startTimer() {
+            let countdown = 3;
+            const countdownElement = document.getElementById('timer');
+            countdownElement.style.display = 'block';
+            countdownElement.textContent = `Starting in: ${countdown}`;
+            
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    countdownElement.textContent = `Starting in: ${countdown}`;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = 'Go!';
+                    setTimeout(() => {
+                        countdownElement.textContent = `Time left: ${timeLeft}s`;
+                        timer = setInterval(() => {
+                            timeLeft--;
+                            countdownElement.textContent = `Time left: ${timeLeft}s`;
+                            if (timeLeft <= 0) {
+                                clearInterval(timer);
+                                endGame();
+                            }
+                        }, 1000);
+                    }, 1000);
+                }
+            }, 1000);
+        }
 
-        // Directly call updateWord since the wordLibrary is already loaded
-        updateWord();
+        function endGame() {
+            document.getElementById('result').textContent = `Time's up! Final Score: ${score}`;
+            document.getElementById('result').style.color = 'blue';
+            disableAllButtons();
+            document.getElementById('hintBtn').disabled = true;
+        }
 
-        // 添加这个新函数到脚本的末尾
+        function disableAllButtons() {
+            languages.forEach(lang => {
+                document.getElementById(`${lang}Btn`).disabled = true;
+            });
+        }
+
         function resetGame() {
+            clearInterval(timer);
             score = 0;
             usedWords.clear();
             document.getElementById('score').textContent = 'Score: 0';
+            document.getElementById('result').textContent = '';
             updateWord();
+            if (isRaceMode) {
+                startTimer();
+            }
         }
 
-        document.getElementById('refreshBtn').addEventListener('click', resetGame);
+        function toggleMode() {
+            isRaceMode = document.getElementById('modeSwitch').checked;
+            document.getElementById('modeLabel').textContent = isRaceMode ? 'Speed Mode' : 'Leisure Mode';
+            document.getElementById('timer').style.display = isRaceMode ? 'block' : 'none';
+            resetGame();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('hintBtn').addEventListener('click', getHint);
+            languages.forEach(lang => {
+                document.getElementById(`${lang}Btn`).addEventListener('click', () => checkAnswer(lang));
+            });
+            document.getElementById('refreshBtn').addEventListener('click', resetGame);
+            document.getElementById('modeSwitch').addEventListener('change', toggleMode);
+            updateWord();
+        });
     </script>
 </body>
 </html>

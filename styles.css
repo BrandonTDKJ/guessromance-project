@@ -28,14 +28,15 @@ h1 {
 }
 #word {
     font-size: 2.5rem;
-    margin: 1.5rem 0;
     font-weight: bold;
     padding: 1rem;
     border: 3px solid #333;
     border-radius: 10px;
     background-color: #f8f8f8;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    min-height: 60px; /* 添加最小高度以防止布局跳动 */
+    min-height: 60px;
+    width: 100%;
+    box-sizing: border-box;
 }
 #word::after {
     content: '|';
@@ -77,16 +78,17 @@ button:hover {
 }
 #score {
     margin-top: 1rem;
-    font-size: 1.1rem;
-    color: #555;
-    background-color: black;
+    font-size: 1.5rem; /* 增大字体大小 */
     color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: black;
+    padding: 15px 25px; /* 增加内边距 */
+    border-radius: 10px; /* 增加圆角 */
     display: inline-block;
-    min-width: 100px;
+    min-width: 150px; /* 增加最小宽度 */
     text-align: center;
-    transition: background-color 0.5s ease;
+    transition: background 0.5s ease; /* 修改过渡效果 */
+    font-weight: bold; /* 加粗字体 */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* 添加阴影效果 */
 }
 
 .language-switcher {
@@ -152,27 +154,22 @@ button:hover {
 }
 
 #refreshBtn {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 20px;
-    border: none;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease;
-    padding: 0;
-    margin: 0;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
 }
 
 #refreshBtn:hover {
-    transform: rotate(180deg);
+    background-color: #0056b3;
 }
 
 #fireworks {
@@ -231,4 +228,152 @@ button:hover {
 
 .button-row {
     margin-bottom: 10px; /* 增加按钮行的下边距 */
+}
+
+#hintBtn {
+    background-image: linear-gradient(to right, #4CAF50 0%, #45a049 51%, #4CAF50 100%);
+    margin-top: 20px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-image: none !important;
+    background-color: #cccccc !important;
+    color: #666666 !important;
+}
+
+button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.word-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    width: 100%;
+}
+
+#word {
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 1rem;
+    border: 3px solid #333;
+    border-radius: 10px 0 0 10px;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    min-height: 60px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hintBtn {
+    background-color: black;
+    background-image: none; /* 防止背景渐变样式覆盖 */
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.8rem 1.2rem;
+    border: 3px solid black;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hintBtn:hover {
+    background-color: #333;
+}
+
+#hintBtn:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+.disabled-button {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    background-image: none !important;
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.disabled-button:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+#hints-left {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+#result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.mode-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-right: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
