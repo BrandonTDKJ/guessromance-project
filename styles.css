@@ -396,3 +396,45 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+
+
+/* 确保容器不超出屏幕宽度并适应所有设备 */
+.container {
+    max-width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* 针对移动设备的布局调整 */
+@media (max-width: 600px) {
+    /* 调整标题字体大小，避免溢出 */
+    h1 {
+        font-size: 1.5rem;
+        white-space: nowrap; /* 禁止标题换行 */
+        overflow: hidden;
+        text-overflow: ellipsis; /* 如果标题过长，用省略号表示 */
+    }
+
+    /* 调整按钮为两列三行布局 */
+    .button-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+        grid-gap: 10px; /* 按钮之间的间距 */
+        justify-items: center; /* 居中对齐 */
+        margin-bottom: 10px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 0.8rem;
+        width: 100%;
+    }
+
+    #word {
+        font-size: 2rem;
+        padding: 0.8rem;
+    }
+}
+
+
