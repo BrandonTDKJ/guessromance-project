@@ -284,10 +284,11 @@ button:disabled:hover {
 
 .mode-toggle {
     position: absolute;
-    top: 10px;
+    top: 20px;  /* 将按钮向下移动一点 */
     left: 10px;
     display: flex;
     align-items: center;
+    margin-bottom: 10px;  /* 添加按钮与下方内容的间距 */
 }
 
 .switch {
@@ -349,9 +350,13 @@ input:checked + .slider:before {
 @media (max-width: 600px) {
     /* 调整标题字体大小，避免溢出 */
     h1 {
-        font-size: 2 rem;
+        margin-top: 60px;  /* 标题与顶部按钮间增加距离 */
+        font-size: 1.8rem;
         overflow: hidden;
-        /*text-overflow: ellipsis; /* 如果标题过长，用省略号表示 */
+    }
+    .mode-toggle {
+        top: 15px;  /* 进一步下调按钮位置 */
+        margin-bottom: 15px;
     }
 
     /* 调整按钮为两列三行布局 */

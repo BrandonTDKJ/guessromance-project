@@ -21,7 +21,6 @@
             <button id="hintBtn" aria-label="Hint">?</button>
         </div>
         <div id="timer" style="display: none;">Time left: 60s</div>
-
         <div class="button-row">
             <button id="spanishBtn">Spanish</button>
             <button id="frenchBtn">French</button>
@@ -59,7 +58,10 @@
                 'jota', 'falla', 'meninas', 'duende', 'maja', 'cante', 'romería', 'azulejo', 'serrano', 'almodóvar',
                 'flamenquito', 'gazpachuelo', 'pimentón', 'albóndigas', 'ensaladilla', 'boquerones', 'calamares', 'gambas',
                 'patatas bravas', 'croquetas', 'tortilla española', 'fabada', 'cocido', 'empanada', 'pulpo', 'sidra',
-                'txakoli', 'morcilla', 'sobrasada', 'alioli'
+                'txakoli', 'morcilla', 'sobrasada', 'alioli',
+                // New words
+                'cava', 'iberico', 'andaluz', 'cataluña', 'valencia', 'madrid', 'sevilla', 'toledo', 'zaragoza', 'bilbao',
+                'mallorca', 'menorca', 'ibiza', 'tenerife', 'granada', 'cordoba', 'salamanca', 'burgos', 'santiago', 'pamplona'
             ],
             french: [
                 'baguette', 'croissant', 'champagne', 'beret', 'fromage', 'escargot', 'parfum', 'chic', 'bistro', 'couture',
@@ -68,7 +70,10 @@
                 'champs-élysées', 'moulin rouge', 'louvre', 'marseillaise', 'sacrebleu', 'tour eiffel', 'arrondissement', 'boulangerie', 'charcuterie', 'confit',
                 'coq au vin', 'cassoulet', 'bouillabaisse', 'crêpe', 'éclair', 'madeleine', 'tarte tatin', 'crème brûlée',
                 'bœuf bourguignon', 'choucroute', 'raclette', 'fondue', 'calvados', 'pastis', 'absinthe', 'beaujolais',
-                'bordeaux', 'champignon', 'truffes', 'escargots'
+                'bordeaux', 'champignon', 'truffes', 'escargots',
+                // New words
+                'provence', 'lyon', 'strasbourg', 'bordeaux', 'nantes', 'toulouse', 'nice', 'cannes', 'grenoble', 'lille',
+                'dijon', 'avignon', 'versailles', 'normandie', 'bretagne', 'alsace', 'lorraine', 'savoie', 'bourgogne', 'champagne'
             ],
             italian: [
                 'pizza', 'pasta', 'espresso', 'gelato', 'risotto', 'cappuccino', 'mozzarella', 'gondola', 'ferrari', 'piazza',
@@ -77,16 +82,22 @@
                 'fettuccine', 'gnocchi', 'mascarpone', 'ossobuco', 'pesto', 'ravioli', 'stracciatella', 'zuppa', 'focaccia', 'balsamico',
                 'lasagna', 'minestrone', 'polenta', 'pancetta', 'pecorino', 'gorgonzola', 'ricotta', 'burrata', 'carpaccio',
                 'vitello tonnato', 'saltimbocca', 'cacciatore', 'marsala', 'prosecco', 'amaretto', 'negroni', 'aperitivo',
-                'trattoria', 'osteria', 'enoteca'
+                'trattoria', 'osteria', 'enoteca',
+                // New words
+                'venezia', 'milano', 'firenze', 'roma', 'napoli', 'torino', 'bologna', 'genova', 'verona', 'siena',
+                'palermo', 'catania', 'bari', 'lecce', 'perugia', 'pisa', 'lucca', 'modena', 'parma', 'rimini'
             ],
             romanian: [
                 'mămăligă', 'sarmale', 'țuică', 'miorița', 'doină', 'trăiască', 'balaur', 'colindă', 'ciorbă', 'cozonac',
                 'plăcintă', 'harap-alb', 'brânză', 'dor', 'fată', 'flăcău', 'horă', 'izvor', 'codru', 'zâna',
                 'drăculea', 'mici', 'palinca', 'transilvanie', 'carpați', 'ștefan', 'ardeal', 'balada', 'bucovina', 'cioban',
-                'dacia', 'dragoste', 'haiduc', 'iele', 'lăutari', 'mocănița', 'oltenesc', 'păcală', 'râșnov', 'voievod',
+                'dacia', 'dragoste', 'haiduc', 'iele', 'lăutari', 'mocănița', 'oltenesc', 'păcală', 'rânov', 'voievod',
                 'zacuscă', 'pălincă', 'drob', 'colivă', 'colac', 'tochitură', 'slănină', 'piftie', 'fasole bătută',
                 'bulz', 'mujdei', 'ghiveci', 'șaorma', 'caltaboș', 'cârnați', 'jumări', 'pomana porcului', 'covrigi',
-                'gogoși', 'clătite'
+                'gogoși', 'clătite',
+                // New words
+                'brașov', 'sibiu', 'cluj', 'timișoara', 'iași', 'bucurești', 'constanța', 'oradea', 'sighișoara', 'alba iulia',
+                'suceava', 'târgu mureș', 'bistrița', 'botoșani', 'ploiesti', 'galați', 'brăila', 'tulcea', 'vama veche', 'mamaia'
             ],
             portuguese: [
                 'saudade', 'fado', 'bacalhau', 'caipirinha', 'carnaval', 'bossa nova', 'favela', 'cachaca', 'pastel', 'pão de queijo',
@@ -94,15 +105,21 @@
                 'ginga', 'cachaça', 'coxinha', 'brigadeiro', 'acarajé', 'capoeira', 'berimbau', 'ipanema', 'copacabana', 'carioca',
                 'gaúcho', 'pelé', 'maracujá', 'tapioca', 'jabuticaba', 'caatinga', 'cerrado', 'pantanal', 'jeitinho', 'quilombo',
                 'moqueca', 'feijoada', 'picanha', 'farofa', 'guaraná', 'caatinga', 'sertão', 'cangaço', 'lampião', 'bossa nova',
-                'tropicalismo', 'baião', 'forró', 'frevo', 'maracatu', 'axé', 'capoeira', 'candomblé', 'umbanda', 'macumba'
+                'tropicalismo', 'baião', 'forró', 'frevo', 'maracatu', 'axé', 'capoeira', 'candomblé', 'umbanda', 'macumba',
+                // New words
+                'lisboa', 'porto', 'coimbra', 'braga', 'funchal', 'aveiro', 'guimarães', 'sintra', 'cascais', 'evora',
+                'algarve', 'madeira', 'azores', 'setúbal', 'leiria', 'viana', 'castelo', 'viseu', 'beja', 'faro'
             ],
             catalan: [
                 'botifarra', 'calçot', 'cava', 'sardana', 'castells', 'seny', 'rauxa', 'barretina', 'caganer', 'correfoc',
-                'gegants', 'allioli', 'escalivada', 'xató', 'porró', 'estelada', 'diada', 'modernisme', 'tramuntana', 'sobrassada',
+                'gegants', 'allioli', 'escalivada', 'xat', 'porró', 'estelada', 'diada', 'modernisme', 'tramuntana', 'sobrassada',
                 'crema catalana', 'pa amb tomàquet', 'fuet', 'escudella', 'romesco', 'suquet', 'tió', 'butifarra', 'sequer', 'fideuà',
                 'gaudí', 'sagrada família', 'mossos', 'boqueria', 'pedraforca', 'costa brava', 'montserrat', 'empordà', 'priorat',
                 'masia', 'cargols', 'arròs negre', 'samfaina', 'trinxat', 'coca', 'panellets', 'carquinyolis', 'mel i mató',
-                'ratafía', 'vermut', 'orxata', 'calçots', 'castanyada', 'sant jordi', 'senyera', 'capgrossos', 'trabucaires', 'sardanes'
+                'ratafía', 'vermut', 'orxata', 'calçots', 'castanyada', 'sant jordi', 'senyera', 'capgrossos', 'trabucaires', 'sardanes',
+                // New words
+                'barcelona', 'tarragona', 'lleida', 'girona', 'figueres', 'reus', 'manresa', 'terrassa', 'sabadell', 'badalona',
+                'mataró', 'vilanova', 'sitges', 'igualada', 'vic', 'olot', 'blanes', 'lloret', 'roses', 'palamós'
             ]
         };
 
@@ -120,11 +137,27 @@
             return { word, language };
         }
 
+        function typeWriterEffect(text, elementId, speed = 100) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.textContent = ''; // Clear the current content
+
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+
+            type();
+        }
+
         function updateWord() {
             const { word, language } = getRandomWord();
             currentWord = word;
             currentLanguage = language;
-            document.getElementById('word').textContent = word;
+            typeWriterEffect(word, 'word'); // Use typewriter effect
             document.getElementById('result').textContent = '';
             hintUsed = false; // 重置 HINT 使用状态
             document.getElementById('hintBtn').disabled = false; // 启用 HINT 按钮
@@ -174,7 +207,14 @@
             }
             
             scoreElement.textContent = `Score: ${score}`;
-            setTimeout(updateWord, 1500);
+
+            // 在 Leisure Mode 下，延迟 1.5 秒后更新单词
+            if (!isRaceMode) {
+                setTimeout(updateWord, 1500);
+            } else if (timeLeft > 0) {
+                // 在 Speed Mode 下，如果时间还没到，延迟 1.5 秒后更新单词
+                setTimeout(updateWord, 1500);
+            }
         }
 
         function startTimer() {
@@ -183,6 +223,10 @@
             countdownElement.style.display = 'block';
             countdownElement.textContent = `Starting in: ${countdown}`;
             
+            // 禁用所有语言按钮和提示按钮
+            disableAllButtons();
+            document.getElementById('hintBtn').disabled = true;
+            
             const countdownInterval = setInterval(() => {
                 countdown--;
                 if (countdown > 0) {
@@ -190,6 +234,11 @@
                 } else {
                     clearInterval(countdownInterval);
                     countdownElement.textContent = 'Go!';
+                    
+                    // 启用所有语言按钮和提示按钮
+                    enableAllButtons();
+                    document.getElementById('hintBtn').disabled = false;
+                    
                     setTimeout(() => {
                         countdownElement.textContent = `Time left: ${timeLeft}s`;
                         timer = setInterval(() => {
@@ -206,15 +255,28 @@
         }
 
         function endGame() {
+            clearInterval(timer);
             document.getElementById('result').textContent = `Time's up! Final Score: ${score}`;
             document.getElementById('result').style.color = 'blue';
             disableAllButtons();
             document.getElementById('hintBtn').disabled = true;
+            document.getElementById('word').textContent = 'Game Over';
+            // 不改变 isRaceMode，保持在 Speed Mode
         }
 
         function disableAllButtons() {
             languages.forEach(lang => {
-                document.getElementById(`${lang}Btn`).disabled = true;
+                const button = document.getElementById(`${lang}Btn`);
+                button.disabled = true;
+                button.classList.add('disabled-button');
+            });
+        }
+
+        function enableAllButtons() {
+            languages.forEach(lang => {
+                const button = document.getElementById(`${lang}Btn`);
+                button.disabled = false;
+                button.classList.remove('disabled-button');
             });
         }
 
@@ -224,17 +286,27 @@
             usedWords.clear();
             document.getElementById('score').textContent = 'Score: 0';
             document.getElementById('result').textContent = '';
+            timeLeft = 60; // Reset the timer
+            document.getElementById('timer').textContent = `Time left: ${timeLeft}s`;
+            enableAllButtons();
+            document.getElementById('hintBtn').disabled = false;
+            document.getElementById('refreshBtn').disabled = false;
+            document.getElementById('modeSwitch').disabled = false;
             updateWord();
+            
             if (isRaceMode) {
+                // 如果是 Speed Mode，重新开始倒计时
                 startTimer();
+            } else {
+                // 如果是 Leisure Mode，直接显示新单词
+                document.getElementById('timer').style.display = 'none';
             }
         }
 
         function toggleMode() {
             isRaceMode = document.getElementById('modeSwitch').checked;
             document.getElementById('modeLabel').textContent = isRaceMode ? 'Speed Mode' : 'Leisure Mode';
-            document.getElementById('timer').style.display = isRaceMode ? 'block' : 'none';
-            resetGame();
+            resetGame(); // 这将根据当前模式正确重置游戏
         }
 
         document.addEventListener('DOMContentLoaded', () => {
