@@ -38,6 +38,8 @@
         <button id="refreshBtn" aria-label="Refresh">↻</button>
     </div>
 
+    <div id="visitor-counter">访问量: <span id="count">0</span></div>
+
     <script>
         const languages = ['spanish', 'french', 'italian', 'romanian', 'portuguese', 'catalan'];
         let currentWord = '';
@@ -49,6 +51,7 @@
         let countdownTimer;
         let timeLeft = 60; // 60秒倒计时
         let isRaceMode = false;
+        let currentTypewriterTimeout;
 
         // Inline the word library directly into the script
         const wordLibrary = {
@@ -89,7 +92,7 @@
                 'palermo', 'catania', 'bari', 'lecce', 'perugia', 'pisa', 'lucca', 'modena', 'parma', 'rimini'
             ],
             romanian: [
-                'mămăligă', 'sarmale', 'țuică', 'miorița', 'doină', 'trăiască', 'balaur', 'colindă', 'ciorbă', 'cozonac',
+                'mămăligă', 'sarmale', 'țuică', 'miorița', 'doină', 'tr��iască', 'balaur', 'colindă', 'ciorbă', 'cozonac',
                 'plăcintă', 'harap-alb', 'brânză', 'dor', 'fată', 'flăcău', 'horă', 'izvor', 'codru', 'zâna',
                 'drăculea', 'mici', 'palinca', 'transilvanie', 'carpați', 'ștefan', 'ardeal', 'balada', 'bucovina', 'cioban',
                 'dacia', 'dragoste', 'haiduc', 'iele', 'lăutari', 'mocănița', 'oltenesc', 'păcală', 'rânov', 'voievod',
@@ -139,6 +142,11 @@
         }
 
         function typeWriterEffect(text, elementId, speed = 100) {
+            // 取消之前的typewriter效果
+            if (currentTypewriterTimeout) {
+                clearTimeout(currentTypewriterTimeout);
+            }
+
             let i = 0;
             const element = document.getElementById(elementId);
             element.textContent = ''; // Clear the current content
@@ -147,7 +155,9 @@
                 if (i < text.length) {
                     element.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, speed);
+                    currentTypewriterTimeout = setTimeout(type, speed);
+                } else {
+                    currentTypewriterTimeout = null;
                 }
             }
 
@@ -158,7 +168,11 @@
             const { word, language } = getRandomWord();
             currentWord = word;
             currentLanguage = language;
-            typeWriterEffect(word, 'word'); // Use typewriter effect
+            
+            // 立即设置单词，然后应用typewriter效果
+            document.getElementById('word').textContent = word;
+            typeWriterEffect(word, 'word');
+            
             document.getElementById('result').textContent = '';
             hintUsed = false; // 重置 HINT 使用状态
             document.getElementById('hintBtn').disabled = false; // 启用 HINT 按钮
@@ -306,6 +320,13 @@
             document.getElementById('hintBtn').disabled = false;
             document.getElementById('refreshBtn').disabled = false;
             document.getElementById('modeSwitch').disabled = false;
+
+            // 取消任何正在进行的typewriter效果
+            if (currentTypewriterTimeout) {
+                clearTimeout(currentTypewriterTimeout);
+            }
+            document.getElementById('word').textContent = '';
+
             updateWord();
             
             if (isRaceMode) {
